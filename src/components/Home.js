@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import { firestore } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import {signOut} from "firebase/auth";
+import {auth} from "../firebase"
+
+
+const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -31,6 +43,7 @@ const Home = () => {
         <button className="auth-button">Iniciar Sesión</button>
         <button className="auth-button">Registrarse</button>
         <button className="auth-button">Crear post</button>
+        <button className="auth-button" onClick={logout}>Cerrar Sesión</button>
       </div>
       <div className="wall">
         {posts.map((post) => (
