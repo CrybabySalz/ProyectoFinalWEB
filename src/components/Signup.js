@@ -22,33 +22,33 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Signup</h2>
+      <h2>Registrarse</h2>
       <form onSubmit={handleSignup}>
         <input
           type="text"
-          placeholder="First Name"
+          placeholder="Nombre"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Last Name"
+          placeholder="Apellido"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Correo"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Sign Up</button>
+        <button type="submit">Registrarse</button>
       </form>
     </div>
   );

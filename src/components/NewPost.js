@@ -36,7 +36,7 @@ const NewPost = ({ currentUser }) => {
 
   return (
     <div>
-      <h2>New Post</h2>
+      <h2>Nueva Publicación</h2>
       <form onSubmit={handlePostSubmit}>
         <textarea
           placeholder="Escribe tu publicación aquí..."
@@ -44,7 +44,7 @@ const NewPost = ({ currentUser }) => {
           onChange={(e) => setContent(e.target.value)}
         />
         <input type="file" onChange={handleImageChange} />
-        <button type="submit">Post</button>
+        <button type="submit">Publicar</button>
       </form>
     </div>
   );
