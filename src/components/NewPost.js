@@ -1,9 +1,15 @@
 import React, { useState } from "react";
-import { firestore, storage } from "./firebase";
+import { storage, auth, firestore } from "../firebase";
+import { useHistory } from "react-router-dom";
+import {collection, doc, addDoc} from "firebase/firestore";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
-const NewPost = ({ currentUser }) => {
+
+const NewPost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const history = useHistory();
+  const currentUser = auth.currentUser;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -15,13 +21,12 @@ const NewPost = ({ currentUser }) => {
     try {
       let imageUrl = "";
       if (image) {
-        const storageRef = storage.ref();
-        const imageRef = storageRef.child(`${currentUser.uid}/${image.name}`);
-        await imageRef.put(image);
-        imageUrl = await imageRef.getDownloadURL();
+        const imageRef = ref(storage, image.name);
+        await uploadBytes(imageRef, image);
+        imageUrl = await getDownloadURL(imageRef);
       }
 
-      await firestore.collection("posts").add({
+      await addDoc(collection(firestore, "posts"), {
         username: currentUser.email,
         content,
         imageUrl,
@@ -32,6 +37,7 @@ const NewPost = ({ currentUser }) => {
     } catch (error) {
       console.error("Error creando publicación:", error);
     }
+    history.push("/");
   };
 
   return (

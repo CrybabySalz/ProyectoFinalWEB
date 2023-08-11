@@ -1,23 +1,29 @@
 import React, { useState } from "react";
-import { auth, firestore } from "./firebase";
+import { auth, firestore } from "../firebase";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {collection} from "firebase/firestore";
+import { useHistory } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const history = useHistory();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await auth.createUserWithEmailAndPassword(auth,email, password);
-      await firestore.collection("users").doc(userCredential.user.uid).set({
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await collection(firestore, "users").doc(userCredential.user.uid).set({
         firstName,
         lastName,
       });
+    
     } catch (error) {
       console.error("Error al crear la cuenta:", error);
     }
+    history.push("/");
   };
 
   return (
