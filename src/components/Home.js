@@ -17,6 +17,7 @@ const logout = async () => {
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const userEmail = auth.currentUser.email;
 
   useEffect(() => {
     getPostsList();
@@ -38,7 +39,7 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className="header">Bookface</div>
+      <div className="header"><h1>Bookface</h1><h3 className="usertag">{userEmail}</h3></div>
       <div className="buttons-container">
         <Link to="/login" className="auth-button">Iniciar Sesión</Link>
         <Link to="/signup" className="auth-button">Registrarse</Link>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { storage, auth, firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
-import {collection, doc, addDoc} from "firebase/firestore";
+import {collection, addDoc} from "firebase/firestore";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
 
