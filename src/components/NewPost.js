@@ -42,7 +42,7 @@ const NewPost = () => {
 
   return (
     <div>
-      <h2>Nueva Publicación</h2>
+      <h2 className="header">Nueva Publicación</h2>
       <form onSubmit={handlePostSubmit}>
         <textarea
           placeholder="Escribe tu publicación aquí..."
@@ -50,7 +50,7 @@ const NewPost = () => {
           onChange={(e) => setContent(e.target.value)}
         />
         <input type="file" onChange={handleImageChange} />
-        <button type="submit">Publicar</button>
+        <button type="submit" className="submit-button">Publicar</button>
       </form>
     </div>
   );

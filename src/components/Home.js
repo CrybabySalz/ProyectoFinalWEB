@@ -9,6 +9,7 @@ import { Link } from "react-router-dom"
 const logout = async () => {
   try {
     await signOut(auth);
+    window.location.reload();
   } catch (err) {
     console.error(err);
   }
@@ -17,7 +18,13 @@ const logout = async () => {
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const userEmail = auth.currentUser.email;
+  let userEmail;
+
+try {
+  userEmail = auth.currentUser.email;
+} catch (error) {
+  userEmail = "NoUser :("
+}
 
   useEffect(() => {
     getPostsList();
@@ -38,6 +45,7 @@ const Home = () => {
   };
 
   return (
+    
     <div className="container">
       <div className="header"><h1>Bookface</h1><h3 className="usertag">{userEmail}</h3></div>
       <div className="buttons-container">

@@ -3,6 +3,7 @@ import { auth, firestore } from "../firebase";
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {collection} from "firebase/firestore";
 import { useHistory } from "react-router-dom";
+import "../index.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -28,7 +29,7 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Registrarse</h2>
+      <h2 className="header">Registrarse</h2>
       <form onSubmit={handleSignup}>
         <input
           type="text"
@@ -54,7 +55,7 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Registrarse</button>
+        <button type="submit" className="submit-button">Registrarse</button>
       </form>
     </div>
   );

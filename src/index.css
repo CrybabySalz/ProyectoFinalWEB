@@ -55,7 +55,7 @@ code {
 }
 
 
-.auth-button {
+.auth-button, .submit-button {
   background-color: #367d38;
   color: white;
   border: none;
@@ -65,6 +65,11 @@ code {
   cursor: pointer;
   text-decoration: none;
   font-size: 16px;
+}
+
+.auth-button:hover{
+  background-color: white;
+  color: green;
 }
 
 
@@ -102,6 +107,36 @@ code {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+}
+
+
+input {
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid green;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: white;
+  color: green;
+}
+
+.header h2 {
+  padding-left: 12px;
+}
+
+textarea {
+  padding: 10px;
+  margin: 5px;
+  border: 2px solid green;
+  border-radius: 5px;
+  width: 95%;
+  resize: none;
+}
+
+textarea::placeholder {
+  color: green;
 }
 
 
