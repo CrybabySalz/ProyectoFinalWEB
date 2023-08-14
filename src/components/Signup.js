@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { auth, firestore } from "../firebase";
 import {createUserWithEmailAndPassword} from "firebase/auth";
-import {collection} from "firebase/firestore";
+import {collection, addDoc} from "firebase/firestore";
 import { useHistory } from "react-router-dom";
 import "../index.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,9 +17,12 @@ const Signup = () => {
     e.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await collection(firestore, "users").doc(userCredential.user.uid).set({
-        firstName,
-        lastName,
+
+      await addDoc(collection(firestore, "users"), {
+       firstName,
+       lastName,
+       username,
+       email,
       });
     
     } catch (error) {
@@ -42,6 +46,12 @@ const Signup = () => {
           placeholder="Apellido"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="email"

@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { storage, auth, firestore } from "../firebase";
 import { useHistory } from "react-router-dom";
-import {collection, addDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs} from "firebase/firestore";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
-
 
 const NewPost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const history = useHistory();
-  const currentUser = auth.currentUser;
+
+  const [username, setUsername] = useState('');
+
+  const getUsername = async () => {
+    try {
+      const postsCollectionRef = collection(firestore, "users");
+      const data = await getDocs(postsCollectionRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      let currentUser = filteredData.filter(user => user.email === auth.currentUser.email)[0].username;
+      setUsername(currentUser);
+    } catch (err) {
+      setUsername("NoUser :(");
+    }
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -18,6 +37,13 @@ const NewPost = () => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+
+    if (username === "NoUser :(") {
+      alert("No se puede subir posts sin iniciar sesión.");
+      history.push("/");
+      return
+    }
+
     try {
       let imageUrl = "";
       if (image) {
@@ -27,7 +53,7 @@ const NewPost = () => {
       }
 
       await addDoc(collection(firestore, "posts"), {
-        username: currentUser.email,
+        username,
         content,
         imageUrl,
       });

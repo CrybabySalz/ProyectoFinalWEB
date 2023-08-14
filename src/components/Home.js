@@ -18,16 +18,26 @@ const logout = async () => {
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  let userEmail;
+  const [username, setUsername] = useState('');
 
-try {
-  userEmail = auth.currentUser.email;
-} catch (error) {
-  userEmail = "NoUser :("
-}
+  const getUsername = async () => {
+    try {
+      const postsCollectionRef = collection(firestore, "users");
+      const data = await getDocs(postsCollectionRef);
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      let currentUser = filteredData.filter(user => user.email === auth.currentUser.email)[0].username;
+      setUsername(currentUser);
+    } catch (err) {
+      setUsername("NoUser :(");
+    }
+  };
 
   useEffect(() => {
     getPostsList();
+    getUsername();
   }, []);
 
   const getPostsList = async () => {
@@ -47,7 +57,7 @@ try {
   return (
     
     <div className="container">
-      <div className="header"><h1>Bookface</h1><h3 className="usertag">{userEmail}</h3></div>
+      <div className="header"><h1>Bookface</h1><h3 className="usertag">{username}</h3></div>
       <div className="buttons-container">
         <Link to="/login" className="auth-button">Iniciar Sesión</Link>
         <Link to="/signup" className="auth-button">Registrarse</Link>
